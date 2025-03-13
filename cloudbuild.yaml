@@ -1,19 +1,21 @@
 steps:
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'us-central1-docker.pkg.dev/kubernetes-assignment-453322/k8s-assignment/container2', '.']
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/kubernetes-assignment-453322/k8s-assignment/container2:latest', '.']
 
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'us-central1-docker.pkg.dev/kubernetes-assignment-453322/k8s-assignment/container2']
+  args: ['push', 'us-central1-docker.pkg.dev/kubernetes-assignment-453322/k8s-assignment/container2:latest']
 
-- name: "gcr.io/cloud-builders/gke-deploy"
+- name: "gcr.io/cloud-builders/kubectl"
+  entrypoint: 'bash'
   args:
-  - run
-  - --image='us-central1-docker.pkg.dev/kubernetes-assignment-453322/k8s-assignment/container2'
-  - --location='us-central1'
-  - --cluster='gke-cluster'
+  - '-c'
+  - |
+      gcloud container clusters get-credentials gke-cluster --zone us-central1
+      kubectl apply -f container2-deployment.yaml
+      kubectl apply -f container2-service.yaml
 
 images:
-- 'us-central1-docker.pkg.dev/kubernetes-assignment-453322/k8s-assignment/container2'
+- 'us-central1-docker.pkg.dev/kubernetes-assignment-453322/k8s-assignment/container2:latest'
 
 options:
   logging: CLOUD_LOGGING_ONLY
