@@ -7,6 +7,5 @@ spec:
   selector:
     app: container2
   ports:
-    - protocol: TCP
-      port: 7000
+    - port: 80
       targetPort: 7000

@@ -2,6 +2,8 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: container2-deployment
+  labels:
+    app: container2
 spec:
   replicas: 1
   selector:
@@ -15,12 +17,10 @@ spec:
       containers:
       - name: container2
         image: us-central1-docker.pkg.dev/kubernetes-assignment-453322/container2:latest
-        ports:
-        - containerPort: 7000
         volumeMounts:
-        - name: storage
-          mountPath: "/yash_PV_dir"
+        - mountPath: "/yash_PV_dir" 
+          name: standard-volume
       volumes:
-      - name: storage
+      - name: standard-volume
         persistentVolumeClaim:
-          claimName: yash-pvc
+          claimName: standard-rwo-pvc
