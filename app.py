@@ -4,7 +4,7 @@ import csv
 
 app = Flask(__name__)
 
-# Persistent storage directory
+# Persistent storage directory path
 STORAGE_DIR = "/yash_PV_dir"
 
 @app.route('/sum', methods=['POST'])
